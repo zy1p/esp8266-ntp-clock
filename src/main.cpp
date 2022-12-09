@@ -173,13 +173,19 @@ void sendNTPpacket(IPAddress &address) {
 void displayDateTime(void) {
   display.clearDisplay();
 
-  display.setTextSize(2);               // Normal 1:1 pixel scale
+  display.setTextSize(1);               // Normal 1:1 pixel scale
   display.setTextColor(SSD1306_WHITE);  // Draw white text
   display.setCursor(0, 0);              // Start at top-left corner
   display.cp437(true);  // Use full 256 char 'Code Page 437' font
 
-  display.printf("%02d:%02d:%02d\n\n%02d-%02d-%4d", hour(), minute(), second(),
-                 day(), month(), year());
+  display.printf("%02d-%02d-%4d", day(), month(), year());
+
+  display.setTextSize(3);
+  display.setCursor(0, SCREEN_HEIGHT / 2 - 8);
+  display.printf("%02d:%02d", hour(), minute());
+  display.setTextSize(2);
+  display.setCursor(display.getCursorX(), display.getCursorY() + 8);
+  display.printf(":%02d", second());
 
   display.display();
 }
