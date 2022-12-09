@@ -8,6 +8,8 @@
 #include <Wire.h>
 #include <secrets.h>
 
+static const char info[] = "github.com/zy1p";
+
 // NTP Servers:
 static const char ntpServerName[] = "hk.pool.ntp.org";
 
@@ -15,11 +17,6 @@ const int timeZone = 8;  // GMT +8 hours
 
 WiFiUDP Udp;
 unsigned int localPort = 8888;  // local port to listen for UDP packets
-
-time_t getNtpTime();
-void digitalClockDisplay();
-void printDigits(int digits);
-void sendNTPpacket(IPAddress &address);
 
 #define SCREEN_WIDTH 128  // OLED display width, in pixels
 #define SCREEN_HEIGHT 64  // OLED display height, in pixels
@@ -37,6 +34,10 @@ void sendNTPpacket(IPAddress &address);
   0x3C  ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
+time_t getNtpTime();
+void digitalClockDisplay();
+void printDigits(int digits);
+void sendNTPpacket(IPAddress &address);
 void displayDateTime();
 
 void setup() {
@@ -186,6 +187,10 @@ void displayDateTime(void) {
   display.setTextSize(2);
   display.setCursor(display.getCursorX(), display.getCursorY() + 8);
   display.printf(":%02d", second());
+
+  display.setTextSize(1);
+  display.setCursor(SCREEN_WIDTH - sizeof(info) * 6, SCREEN_HEIGHT - 8);
+  display.print(info);
 
   display.display();
 }
