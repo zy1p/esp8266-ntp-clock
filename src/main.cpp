@@ -182,14 +182,17 @@ void displayDateTime(void) {
   display.printf("%02d-%02d-%4d", day(), month(), year());
 
   display.setTextSize(3);
-  display.setCursor(0, SCREEN_HEIGHT / 2 - 8);
+  display.setCursor(0, SCREEN_HEIGHT / 2 - 1 - 8);
   display.printf("%02d:%02d", hour(), minute());
   display.setTextSize(2);
   display.setCursor(display.getCursorX(), display.getCursorY() + 8);
   display.printf(":%02d", second());
 
+  display.setCursor(SCREEN_WIDTH - 1 - 12 * 2 + 1, 0);
+  display.print(hour() > 11 ? "PM" : "AM");
+
   display.setTextSize(1);
-  display.setCursor(SCREEN_WIDTH - sizeof(info) * 6, SCREEN_HEIGHT - 8);
+  display.setCursor(SCREEN_WIDTH - 1 - 6 * strlen(info), SCREEN_HEIGHT - 8);
   display.print(info);
 
   display.display();
